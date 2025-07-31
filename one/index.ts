@@ -52,7 +52,39 @@
 // }
 // console.log(arr.CustomMap((number) => number > 3));
 
-function deepEqual(objOne, objTwo) {
-  
+function deepEqual(objOne: ObjType, objTwo: ObjType): boolean {
+  if (objOne === objTwo) return true;
+  if (typeof objOne !== "object" || typeof objTwo !== "object") return false;
+  const oneKeys = Object.keys(objOne);
+  const twoKeys = Object.keys(objTwo);
+  if (oneKeys.length !== twoKeys.length) return false;
+  for (const key of oneKeys) {
+    if (!twoKeys.includes(key)) {
+      return false;
+    }
+  }
+  for (let i = 0; i < oneKeys.length; i++) {
+    if (objOne[oneKeys[i]] instanceof Object) {
+      if (!deepEqual(objOne[oneKeys[i]], objTwo[oneKeys[i]])) {
+        return false;
+      }
+      continue;
+    }
+    if (objOne[oneKeys[i]] !== objTwo[oneKeys[i]]) {
+      return false;
+    }
+  }
+
+  return true;
 }
-console.log(deepEqual({ x: 1, y: { z: 3 } }, { x: 1, y: { z: 3 } }));
+console.log(
+  deepEqual(
+    { x: 10, y: { z: 30 }, name: { fullName: "mobin" } },
+    { x: 10, y: { z: 30 }, name: { fullName: "mobin" } }
+  )
+);
+type ObjType = {
+  x: number;
+  y: { z: number };
+  name: { fullName: string };
+};
