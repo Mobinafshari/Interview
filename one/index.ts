@@ -46,7 +46,6 @@ function CustomMap(fn): any[] {
   }
   return res;
 }
-console.log(arr.CustomMap((number) => number > 3));
 
 function deepEqual(objOne: ObjType, objTwo: ObjType): boolean {
   return JSON.stringify(objOne) === JSON.stringify(objTwo);
@@ -74,15 +73,42 @@ function deepEqual(objOne: ObjType, objTwo: ObjType): boolean {
 
   //   return true;
 }
-console.log(
-  deepEqual(
-    { x: 10, y: { z: 30 }, name: { fullName: "mobin" } },
-    { x: 10, y: { z: 30 }, name: { fullName: "mobin" } }
-  )
-);
 
 type ObjType = {
   x: number;
-  y: { z: number };
+  y: { z: { number: number } };
   name: { fullName: string };
+};
+
+// How To Making an Object Iterable Without Converting it to an array ===>>>
+// TODO: read more about this
+let person: PersonType = {
+  name: "hashem",
+  age: 78,
+  city: "tehran",
+  [Symbol.iterator]() {
+    const keys = Object.keys(this);
+    let i = 0;
+    return {
+      next: () => {
+        if (i < keys.length) {
+          const key = keys[i++];
+          return { value: this[key], done: false };
+        } else {
+          return { done: true, value: undefined };
+        }
+      },
+    };
+  },
+};
+
+for (const val of person) {
+  console.log(val);
+}
+
+type PersonType = {
+  name: string;
+  age: number;
+  city: string;
+  [Symbol.iterator](): { next: () => { value: any; done: boolean } };
 };
