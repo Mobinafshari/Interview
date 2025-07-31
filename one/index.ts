@@ -39,7 +39,7 @@ const obj = { 1: "ali", 2: "mobin" };
 
 const arr = [2, 4, 66, 1];
 Array.prototype.CustomMap = CustomMap;
-function CustomMap(fn) {
+function CustomMap(fn): any[] {
   const res: any[] = [];
   for (const item of this) {
     res.push(fn(item));

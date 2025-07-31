@@ -32,14 +32,18 @@ let list = {
 
 function find(list, k) {
   let current = list.head;
+  let slow = list.head;
   let count = k;
   while (count > 0) {
     current = current.next;
     count--;
   }
 
-  while (current !== null ) {
+  while (current !== null) {
     current = current.next;
+    slow = slow.next;
   }
-  return current;
+  return slow;
 }
+
+console.log(find(list, 3));
