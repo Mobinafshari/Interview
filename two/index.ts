@@ -7,8 +7,8 @@
     k=2
 
     3.Complexities:
-    time ===> 
-    space ===>
+    time ===> O(N)
+    space ===> O(N)
 */
 
 let list = {
