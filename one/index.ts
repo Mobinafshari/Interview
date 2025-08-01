@@ -103,7 +103,7 @@ let person: PersonType = {
 };
 
 for (const val of person) {
-  console.log(val);
+  // console.log(val);
 }
 
 type PersonType = {
@@ -112,3 +112,36 @@ type PersonType = {
   city: string;
   [Symbol.iterator](): { next: () => { value: any; done: boolean } };
 };
+
+const array = [10, 20][Symbol.iterator]();
+
+
+const symOne = Symbol();
+const symTwo = Symbol();
+const arrOne = [1, 5, 20];
+const arrTwo = [1, 5, 20];
+
+const age = Symbol("age");
+let objTest = {
+  name: "mobin",
+  [age]: 25,
+  age: 25,
+  [Symbol.iterator]() {
+    const keys = Object.keys(objTest);
+    let i = 0;
+    return {
+      next: () => {
+        if (i < keys.length) {
+          const key = keys[i++];
+          return { value: key, done: false };
+        } else {
+          return { value: undefined, done: true };
+        }
+      },
+    };
+  },
+};
+console.log(objTest[Symbol.iterator]().next())
+console.log(objTest[Symbol.iterator]().next())
+console.log(objTest[Symbol.iterator]().next())
+console.log(objTest[Symbol.iterator]().next())
