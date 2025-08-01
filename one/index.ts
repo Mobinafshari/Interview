@@ -115,7 +115,6 @@ type PersonType = {
 
 const array = [10, 20][Symbol.iterator]();
 
-
 const symOne = Symbol();
 const symTwo = Symbol();
 const arrOne = [1, 5, 20];
@@ -141,7 +140,24 @@ let objTest = {
     };
   },
 };
-console.log(objTest[Symbol.iterator]().next())
-console.log(objTest[Symbol.iterator]().next())
-console.log(objTest[Symbol.iterator]().next())
-console.log(objTest[Symbol.iterator]().next())
+
+const asyncIterable = {
+  [Symbol.asyncIterator]() {
+    let i = 0;
+    return {
+      async next() {
+        if (i < 3) {
+          await new Promise((res) => setTimeout(res, 500));
+          return { value: i++, done: false };
+        }
+        return { done: true };
+      },
+    };
+  },
+};
+
+(async () => {
+  for await (const num of asyncIterable) {
+    console.log(num);
+  }
+})();
